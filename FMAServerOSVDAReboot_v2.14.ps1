@@ -148,7 +148,7 @@ $MsgB2 = "Due to maintenance the Citrix server needs to be rebooted. Please save
 #Get script parameter
 $sCompName = $env:COMPUTERNAME
 $sDNSDomName = (Get-WmiObject Win32_ComputerSystem).Domain
-$aDNSDomName = $sDNSDomName.split(".")
+$aDNSDomName = $env:USERDOMAIN # $sDNSDomName.split(".")
 $sCompDomName = $aDNSDomName[0]
 $sMachineName = $sCompDomName + "\" + $sCompName
 $sDDC = (Get-ItemProperty Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Citrix\VirtualDesktopAgent\Policy -Name RegisteredDdcFqdn).RegisteredDdcFqdn
