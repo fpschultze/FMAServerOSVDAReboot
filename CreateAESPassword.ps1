@@ -2,11 +2,14 @@
 #
 # Name:				CreateAESPassword
 # Author:			Robert Woelfer
-# Version: 			1.0
-# Last Modified by: Robert Woelfer
-# Last Modified on: 12/07/2015 (see history for change details)
+# Version: 			1.1
+# Last Modified by: Frank Peter Schultze
+# Last Modified on: 08.05.2017
 #
 # History:
+# 08.05.17: Version 1.1
+#           Export AES encrypted password to xml file
+#
 # 12/07/15: Version 1.0
 #			Version 1.0 created
 #
@@ -24,12 +27,13 @@
     powershell.exe -ExecutionPolicy RemoteSigned -file <path to script>
 #> 
 
-$ScriptRoot = split-path -parent $MyInvocation.MyCommand.Definition
-$PwdFile = $ScriptRoot + "\AES.pwd"
-$KeyFile = $ScriptRoot + "\AES.key"
-$Key = Get-Content $KeyFile
-$Pwd = Read-Host "Please enter the password: " -AsSecureString
-$Pwd | ConvertFrom-SecureString -key $Key | Out-File $PwdFile
+$ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$PwdFile = '{0}\AES.pwd.xml' -f $ScriptRoot
+$KeyFile = '{0}\AES.key.xml' -f $ScriptRoot
+$Key = Import-Clixml -Path $KeyFile
+$Pwd = Read-Host 'Please enter the password: ' -AsSecureString
+$Pwd | ConvertFrom-SecureString -Key $Key | Export-Clixml -Path $PwdFile
+
 
 ##########################################################################################################################################
 # 							

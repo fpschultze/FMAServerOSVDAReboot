@@ -2,11 +2,14 @@
 #
 # Name:				CreateAESKey
 # Author:			Robert Woelfer
-# Version: 			1.0
-# Last Modified by: Robert Woelfer
-# Last Modified on: 12/07/2015 (see history for change details)
+# Version: 			1.1
+# Last Modified by: Frank Peter Schultze
+# Last Modified on: 08.05.2017
 #
 # History:
+# 08.05.17: Version 1.1
+#           Export AES key to xml file
+#
 # 12/07/15: Version 1.0
 #			Version 1.0 created
 #
@@ -24,11 +27,11 @@
     powershell.exe -ExecutionPolicy RemoteSigned -file <path to script>
 #> 
 
-$ScriptRoot = split-path -parent $MyInvocation.MyCommand.Definition
-$KeyFile = $ScriptRoot + "\AES.key"
-$Key = New-Object Byte[] 32 
+$ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$KeyFile = '{0}\AES.key.xml' -f $ScriptRoot
+$Key = New-Object Byte[] 32
 [Security.Cryptography.RNGCryptoServiceProvider]::Create().GetBytes($Key)
-$Key | out-file $KeyFile
+$Key | Export-Clixml -Path $KeyFile
 
 ##########################################################################################################################################
 # 							
